@@ -1,0 +1,102 @@
+//liste avec toute les questions
+int nombreDeQuestion=7;
+String question[7][6]={{"question","réponse 1", "réponse 2", "réponse 3","réponse 4","réponse 1"},
+                       {"Quelle formule doit on se faire tatouer ?","U=RI","R=I/U",""},
+                       {"","","",""},
+                       {"","","",""},
+                       {"","","",""},
+                       {"","","",""},
+                       {"","","",""},
+};
+
+int  numeroQuestion;
+int questionDejaFaite[7];
+int QuestionSelectionee;
+int i;
+int nbDeReponseJuste=0;
+String reponse="fausse";
+String again;
+
+char BluetoothData;
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println(question[0][2]);
+
+}
+
+void loop() {
+  for (numeroQuestion=10;numeroQuestion<=10;numeroQuestion+=1){
+    i=0;
+    QuestionSelectionee=random(10);
+    while (i<numeroQuestion){
+      if (questionDejaFaite[i]==QuestionSelectionee){
+        i=0;
+        QuestionSelectionee=random(10);
+      }
+    }
+    //oubien faire un programme qui enleve de la liste la question selecionnée, mais je ne sais pas trop comment ca marche si on tombe sur le numero. Peut être faire une condition : 
+    //si c'est vide alors relancer le random
+    questionDejaFaite[numeroQuestion]=QuestionSelectionee;
+
+    //afiche la question sur l'écran
+    Serial.print("*1"+question[QuestionSelectionee][1]+"*");
+    Serial.print("*1"+question[QuestionSelectionee][2]+"*");
+    Serial.print("*1"+question[QuestionSelectionee][3]+"*");
+    Serial.print("*1"+question[QuestionSelectionee][4]+"*");
+
+    while (again=="True"){
+     if (Serial.available()){
+      BluetoothData=Serial.read();
+      if(BluetoothData=='a'){ //Button Pressed
+        again="False";
+        if (question[QuestionSelectionee][5]=="1"){
+          reponse="juste";
+        }
+      }
+      if(BluetoothData=='b'){ //Button Pressed
+        again="False";
+        if (question[QuestionSelectionee][5]=="2"){
+          reponse="juste";
+        }
+      }
+      if(BluetoothData=='c'){ //Button Pressed
+        again="False";
+        if (question[QuestionSelectionee][5]=="3"){
+          reponse="juste";
+        }
+      }
+      if(BluetoothData=='d'){ //Button Pressed
+        again="False";
+        if (question[QuestionSelectionee][5]=="4"){
+          reponse="juste";
+        }
+      }
+     }
+    }
+   again="True";
+   //faire les réactions en fonction de si la réponse est juste ou non
+   /*if (reponse=="juste"){
+    * nbDeReponseJuste+=1;
+    //réaction réponse juste}
+   else{
+    
+    //réaction réponse fausse}
+   }
+   */
+   reponse="fausse";
+    Serial.print("*G"+String(numeroQuestion)+"*");
+  }
+  //réaction finale en fonction des réponses juste
+  /*if (nbDeReponseJuste==10){
+   * réaction 100%}
+   *else if(nbDeReponseJuste<=2){
+   *réaction tu es nul}
+   *else if(3<=nbDeReponse<=5){
+   *}
+   *else if (6<=nbDeReponse<=7){
+   *}
+   *else{
+   *}
+   */
+}
